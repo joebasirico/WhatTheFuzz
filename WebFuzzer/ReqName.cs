@@ -15,7 +15,6 @@ namespace WebFuzzer
 		public bool saveProxy = true;
 		public bool saveRequest = true;
 		public bool saveResponse = true;
-		public bool wasCanceled = false;
 		public string name = "";
 
 		public ReqName()
@@ -31,13 +30,13 @@ namespace WebFuzzer
 			saveResponse = SaveResponse.Checked;
 
 			name = NameBox.Text;
-
+			this.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.Close();
 		}
 
 		private void Cancel_Click(object sender, EventArgs e)
 		{
-			wasCanceled = true;
+			this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.Close();
 		}
 

@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.responseOutput = new System.Windows.Forms.TextBox();
 			this.requestInput = new System.Windows.Forms.TextBox();
@@ -59,10 +60,14 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.browser = new System.Windows.Forms.WebBrowser();
+			this.invalidRegex = new System.Windows.Forms.ErrorProvider(this.components);
+			this.manuallyAddTestCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.followRedirects = new System.Windows.Forms.CheckBox();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.invalidRegex)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// responseOutput
@@ -73,8 +78,9 @@
 			this.responseOutput.Multiline = true;
 			this.responseOutput.Name = "responseOutput";
 			this.responseOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.responseOutput.Size = new System.Drawing.Size(670, 130);
+			this.responseOutput.Size = new System.Drawing.Size(670, 223);
 			this.responseOutput.TabIndex = 1;
+			this.responseOutput.TextChanged += new System.EventHandler(this.responseOutput_TextChanged);
 			// 
 			// requestInput
 			// 
@@ -145,7 +151,8 @@
             this.saveSelectedTestCaseToolStripMenuItem,
             this.saveAllTestCasesToolStripMenuItem,
             this.toolStripSeparator2,
-            this.loadSingleTestCaseToolStripMenuItem});
+            this.loadSingleTestCaseToolStripMenuItem,
+            this.manuallyAddTestCaseToolStripMenuItem});
 			this.testCasesToolStripMenuItem.Name = "testCasesToolStripMenuItem";
 			this.testCasesToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
 			this.testCasesToolStripMenuItem.Text = "Test Cases";
@@ -218,8 +225,9 @@
 			// 
 			this.regexTestVal.Location = new System.Drawing.Point(309, 571);
 			this.regexTestVal.Name = "regexTestVal";
-			this.regexTestVal.Size = new System.Drawing.Size(526, 20);
+			this.regexTestVal.Size = new System.Drawing.Size(501, 20);
 			this.regexTestVal.TabIndex = 7;
+			this.regexTestVal.TextChanged += new System.EventHandler(this.regexTestVal_TextChanged);
 			// 
 			// label3
 			// 
@@ -306,7 +314,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(676, 136);
+			this.tabPage1.Size = new System.Drawing.Size(676, 229);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "HTML";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -333,11 +341,33 @@
 			this.browser.Size = new System.Drawing.Size(670, 223);
 			this.browser.TabIndex = 0;
 			// 
+			// invalidRegex
+			// 
+			this.invalidRegex.ContainerControl = this;
+			// 
+			// manuallyAddTestCaseToolStripMenuItem
+			// 
+			this.manuallyAddTestCaseToolStripMenuItem.Name = "manuallyAddTestCaseToolStripMenuItem";
+			this.manuallyAddTestCaseToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.manuallyAddTestCaseToolStripMenuItem.Text = "Manually Add Test Case";
+			this.manuallyAddTestCaseToolStripMenuItem.Click += new System.EventHandler(this.manuallyAddTestCaseToolStripMenuItem_Click);
+			// 
+			// followRedirects
+			// 
+			this.followRedirects.AutoSize = true;
+			this.followRedirects.Location = new System.Drawing.Point(649, 287);
+			this.followRedirects.Name = "followRedirects";
+			this.followRedirects.Size = new System.Drawing.Size(104, 17);
+			this.followRedirects.TabIndex = 17;
+			this.followRedirects.Text = "Follow Redirects";
+			this.followRedirects.UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(928, 606);
+			this.Controls.Add(this.followRedirects);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.URLEncodeAttack);
 			this.Controls.Add(this.saveReq);
@@ -362,6 +392,7 @@
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.invalidRegex)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -399,6 +430,9 @@
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.WebBrowser browser;
+		private System.Windows.Forms.ErrorProvider invalidRegex;
+		private System.Windows.Forms.ToolStripMenuItem manuallyAddTestCaseToolStripMenuItem;
+		private System.Windows.Forms.CheckBox followRedirects;
 	}
 }
 

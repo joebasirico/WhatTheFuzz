@@ -50,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcceptAllCertificatePolicy.cs" />
+    <Compile Include="AddTestCase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddTestCase.Designer.cs">
+      <DependentUpon>AddTestCase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +71,9 @@
       <DependentUpon>ReqName.cs</DependentUpon>
     </Compile>
     <Compile Include="ReqResPair.cs" />
+    <EmbeddedResource Include="AddTestCase.resx">
+      <DependentUpon>AddTestCase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
