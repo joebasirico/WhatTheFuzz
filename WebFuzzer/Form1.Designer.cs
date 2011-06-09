@@ -38,6 +38,8 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.testCasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearAllTestValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.saveSelectedTestCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveAllTestCasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -53,22 +55,30 @@
 			this.HelpLabel = new System.Windows.Forms.Label();
 			this.saveReq = new System.Windows.Forms.Button();
 			this.URLEncodeAttack = new System.Windows.Forms.CheckBox();
-			this.clearAllTestValuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.browser = new System.Windows.Forms.WebBrowser();
 			this.menuStrip1.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.tabPage1.SuspendLayout();
+			this.tabPage2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// responseOutput
 			// 
-			this.responseOutput.Location = new System.Drawing.Point(229, 310);
+			this.responseOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.responseOutput.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.responseOutput.Location = new System.Drawing.Point(3, 3);
 			this.responseOutput.Multiline = true;
 			this.responseOutput.Name = "responseOutput";
 			this.responseOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.responseOutput.Size = new System.Drawing.Size(687, 246);
+			this.responseOutput.Size = new System.Drawing.Size(670, 130);
 			this.responseOutput.TabIndex = 1;
 			// 
 			// requestInput
 			// 
+			this.requestInput.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.requestInput.Location = new System.Drawing.Point(229, 104);
 			this.requestInput.Multiline = true;
 			this.requestInput.Name = "requestInput";
@@ -118,12 +128,12 @@
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(189, 6);
 			// 
 			// quitToolStripMenuItem
 			// 
 			this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-			this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.quitToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
 			this.quitToolStripMenuItem.Text = "Quit";
 			this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
 			// 
@@ -139,6 +149,18 @@
 			this.testCasesToolStripMenuItem.Name = "testCasesToolStripMenuItem";
 			this.testCasesToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
 			this.testCasesToolStripMenuItem.Text = "Test Cases";
+			// 
+			// clearAllTestValuesToolStripMenuItem
+			// 
+			this.clearAllTestValuesToolStripMenuItem.Name = "clearAllTestValuesToolStripMenuItem";
+			this.clearAllTestValuesToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.clearAllTestValuesToolStripMenuItem.Text = "Clear All Test Values";
+			this.clearAllTestValuesToolStripMenuItem.Click += new System.EventHandler(this.clearAllTestValuesToolStripMenuItem_Click_1);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(230, 6);
 			// 
 			// saveSelectedTestCaseToolStripMenuItem
 			// 
@@ -157,7 +179,7 @@
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(195, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(230, 6);
 			// 
 			// loadSingleTestCaseToolStripMenuItem
 			// 
@@ -268,23 +290,55 @@
 			this.URLEncodeAttack.Text = "URL Encode Attack Strings";
 			this.URLEncodeAttack.UseVisualStyleBackColor = true;
 			// 
-			// clearAllTestValuesToolStripMenuItem
+			// tabControl1
 			// 
-			this.clearAllTestValuesToolStripMenuItem.Name = "clearAllTestValuesToolStripMenuItem";
-			this.clearAllTestValuesToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-			this.clearAllTestValuesToolStripMenuItem.Text = "Clear All Test Values";
-			this.clearAllTestValuesToolStripMenuItem.Click += new System.EventHandler(this.clearAllTestValuesToolStripMenuItem_Click_1);
+			this.tabControl1.Controls.Add(this.tabPage1);
+			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Location = new System.Drawing.Point(232, 310);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(684, 255);
+			this.tabControl1.TabIndex = 16;
 			// 
-			// toolStripSeparator3
+			// tabPage1
 			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(195, 6);
+			this.tabPage1.Controls.Add(this.responseOutput);
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(676, 136);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "HTML";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.Controls.Add(this.browser);
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(676, 229);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "Render";
+			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// browser
+			// 
+			this.browser.AllowWebBrowserDrop = false;
+			this.browser.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.browser.Location = new System.Drawing.Point(3, 3);
+			this.browser.MinimumSize = new System.Drawing.Size(20, 20);
+			this.browser.Name = "browser";
+			this.browser.ScriptErrorsSuppressed = true;
+			this.browser.Size = new System.Drawing.Size(670, 223);
+			this.browser.TabIndex = 0;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(928, 606);
+			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.URLEncodeAttack);
 			this.Controls.Add(this.saveReq);
 			this.Controls.Add(this.HelpLabel);
@@ -298,13 +352,16 @@
 			this.Controls.Add(this.hostName);
 			this.Controls.Add(this.Begin);
 			this.Controls.Add(this.requestInput);
-			this.Controls.Add(this.responseOutput);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.tabControl1.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
+			this.tabPage1.PerformLayout();
+			this.tabPage2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -338,6 +395,10 @@
 		private System.Windows.Forms.ToolStripMenuItem loadSingleTestCaseToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem clearAllTestValuesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.WebBrowser browser;
 	}
 }
 

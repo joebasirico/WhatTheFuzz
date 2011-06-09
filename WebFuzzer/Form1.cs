@@ -88,6 +88,7 @@ namespace WebFuzzer
 
 
 			}
+			browser.DocumentText = newVal.Response;
 			responseOutput.Text = newVal.Response;
 		}
 
@@ -139,6 +140,7 @@ namespace WebFuzzer
 				//replace host, proxy, req and response with the selected value
 				requestInput.Text = selectedVal.Request;
 				responseOutput.Text = selectedVal.Response;
+				browser.DocumentText = selectedVal.Response;
 				hostName.Text = selectedVal.Host;
 				proxyValue.Text = selectedVal.Proxy;
 			}
