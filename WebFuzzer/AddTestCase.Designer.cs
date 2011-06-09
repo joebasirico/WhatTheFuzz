@@ -1,4 +1,4 @@
-﻿namespace WebFuzzer
+﻿namespace WhatTheFuzz
 {
 	partial class AddTestCase
 	{

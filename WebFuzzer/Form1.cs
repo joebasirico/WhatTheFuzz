@@ -12,10 +12,11 @@ using System.Net;
 using System.Web;
 using System.Net.Sockets;
 
-namespace WebFuzzer
+namespace WhatTheFuzz
 {
 	public partial class Form1 : Form
 	{
+		string originalRequest = "";
 		public Form1()
 		{
 			InitializeComponent();
@@ -45,6 +46,13 @@ namespace WebFuzzer
 
 		private void Begin_Click(object sender, EventArgs e)
 		{
+			//if the user has changed the request and it has a new val to replace, use that
+			if (requestInput.Text.Contains("&&val&&"))
+				originalRequest = requestInput.Text;
+			//if this is the first time, and there is no previous request, use whatever they have in there.
+			else if (string.IsNullOrEmpty(originalRequest))
+				originalRequest = requestInput.Text;
+			
 			//move this up here so we can use it later.
 			ReqResPair newVal = new ReqResPair("", "");
 			List<ReqResPair> values = new List<ReqResPair>();
@@ -56,16 +64,15 @@ namespace WebFuzzer
 			foreach (ReqResPair val in values)
 			{
 				newVal = new ReqResPair(val.Name, val.AttackString);
-				ReqResPair currVal = val;
 				//remove it so we can re-add it later
 				testValues.Items.Remove(val);
 
 				newVal.Host = hostName.Text;
 				newVal.Proxy = proxyValue.Text;
-				string attackStr = currVal.AttackString;
+				string attackStr = val.AttackString;
 				if (URLEncodeAttack.Checked)
 					attackStr = HttpUtility.UrlEncode(attackStr);
-				newVal.Request = requestInput.Text.Replace("&&val&&", attackStr);
+				newVal.Request = originalRequest.Replace("&&val&&", attackStr);
 				newVal.Response = SendRequest(newVal.Host, newVal.Request, newVal.Proxy);
 
 				newVal.Name = "Completed: " + newVal.AttackString;
@@ -181,7 +188,7 @@ namespace WebFuzzer
 				ReqResPair rrp = (ReqResPair)testValues.SelectedValue;
 				SaveFileDialog sfd = new SaveFileDialog();
 				sfd.RestoreDirectory = true;
-				sfd.Filter = "WebFuzzer Files (*.wff)|*.wff|All files (*.*)|*.*";
+				sfd.Filter = "WhatTheFuzz Files (*.wff)|*.wff|All files (*.*)|*.*";
 				if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
 					string testCase = GenerateTestCaseString(rrp);
@@ -192,7 +199,7 @@ namespace WebFuzzer
 			{
 				SaveFileDialog sfd = new SaveFileDialog();
 				sfd.RestoreDirectory = true;
-				sfd.Filter = "WebFuzzer Files (*.wff)|*.wff|All files (*.*)|*.*";
+				sfd.Filter = "WhatTheFuzz Files (*.wff)|*.wff|All files (*.*)|*.*";
 				if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
 					string testCase = Base64Encode("NoName") + "|" +
@@ -236,7 +243,7 @@ namespace WebFuzzer
 		{
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.RestoreDirectory = true;
-			sfd.Filter = "WebFuzzer Files (*.wff)|*.wff|All files (*.*)|*.*";
+			sfd.Filter = "WhatTheFuzz Files (*.wff)|*.wff|All files (*.*)|*.*";
 			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				StringBuilder sb = new StringBuilder();
@@ -265,7 +272,7 @@ namespace WebFuzzer
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.RestoreDirectory = true;
-			ofd.Filter = "WebFuzzer Files (*.wff)|*.wff|All files (*.*)|*.*";
+			ofd.Filter = "WhatTheFuzz Files (*.wff)|*.wff|All files (*.*)|*.*";
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				string file = File.ReadAllText(ofd.FileName);
@@ -303,7 +310,11 @@ namespace WebFuzzer
 		{
 			if (MessageBox.Show("This will remove all the values from the left column of test cases. \r\n\r\nAre you sure you want to do that?",
 				"Warning, you're about to delete your test cases", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+			{
 				testValues.Items.Clear();
+				requestInput.Text = originalRequest;
+				responseOutput.Text = "";
+			}
 		}
 
 		private void responseOutput_TextChanged(object sender, EventArgs e)
@@ -357,6 +368,23 @@ namespace WebFuzzer
 				ReqResPair rrp = new ReqResPair(atc.Name, atc.Value);
 				testValues.Items.Add(rrp);
 			}
+		}
+
+		private void Reset_Click(object sender, EventArgs e)
+		{
+			requestInput.Text = originalRequest;
+			responseOutput.Text = ""; 
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AboutBox1 ab = new AboutBox1();
+			ab.Show();
+		}
+
+		private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start("https://github.com/SecurityInnovation/WhatTheFuzz");
 		}
 	}
 }

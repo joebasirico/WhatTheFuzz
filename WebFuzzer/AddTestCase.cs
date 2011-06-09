@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WebFuzzer
+namespace WhatTheFuzz
 {
 	public partial class AddTestCase : Form
 	{

@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="requestInput.Text" xml:space="preserve">
-    <value>__EVENTTARGET=&amp;__EVENTARGUMENT=&amp;__VIEWSTATE=%2FwEPDwUKMTc0MjE0NjY3OA9kFgJmD2QWAgIDD2QWAgIBDw8WAh4EVGV4dAUuUGxlYXNlIDxhIGhyZWY9IkFjY291bnQvTG9naW4uYXNweCI%2BTG9nIGluPC9hPmRkZA%3D%3D&amp;ctl00%24MainContent%24UserName=joe&amp;ctl00%24MainContent%24Password=password&amp;ctl00%24MainContent%24LoginButton=Log+In</value>
-  </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

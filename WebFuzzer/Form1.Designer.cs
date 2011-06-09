@@ -1,4 +1,4 @@
-﻿namespace WebFuzzer
+﻿namespace WhatTheFuzz
 {
 	partial class Form1
 	{
@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.responseOutput = new System.Windows.Forms.TextBox();
 			this.requestInput = new System.Windows.Forms.TextBox();
 			this.Begin = new System.Windows.Forms.Button();
@@ -45,6 +44,7 @@
 			this.saveAllTestCasesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.loadSingleTestCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.manuallyAddTestCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hostName = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -61,8 +61,11 @@
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.browser = new System.Windows.Forms.WebBrowser();
 			this.invalidRegex = new System.Windows.Forms.ErrorProvider(this.components);
-			this.manuallyAddTestCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.followRedirects = new System.Windows.Forms.CheckBox();
+			this.Reset = new System.Windows.Forms.Button();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -91,7 +94,7 @@
 			this.requestInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.requestInput.Size = new System.Drawing.Size(687, 177);
 			this.requestInput.TabIndex = 2;
-			this.requestInput.Text = resources.GetString("requestInput.Text");
+			this.requestInput.Text = "[Paste POST Data Here, if left blank a GET request will be made]";
 			// 
 			// Begin
 			// 
@@ -107,7 +110,8 @@
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.testCasesToolStripMenuItem});
+            this.testCasesToolStripMenuItem,
+            this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(928, 24);
@@ -195,13 +199,20 @@
 			this.loadSingleTestCaseToolStripMenuItem.Text = "Load Test Case(s) from File";
 			this.loadSingleTestCaseToolStripMenuItem.Click += new System.EventHandler(this.loadSingleTestCaseToolStripMenuItem_Click);
 			// 
+			// manuallyAddTestCaseToolStripMenuItem
+			// 
+			this.manuallyAddTestCaseToolStripMenuItem.Name = "manuallyAddTestCaseToolStripMenuItem";
+			this.manuallyAddTestCaseToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+			this.manuallyAddTestCaseToolStripMenuItem.Text = "Manually Add Test Case";
+			this.manuallyAddTestCaseToolStripMenuItem.Click += new System.EventHandler(this.manuallyAddTestCaseToolStripMenuItem_Click);
+			// 
 			// hostName
 			// 
 			this.hostName.Location = new System.Drawing.Point(307, 27);
 			this.hostName.Name = "hostName";
 			this.hostName.Size = new System.Drawing.Size(609, 20);
 			this.hostName.TabIndex = 5;
-			this.hostName.Text = "http://localhost:2034/Account/Login.aspx";
+			this.hostName.Text = "http://example.com";
 			// 
 			// label1
 			// 
@@ -244,7 +255,6 @@
 			this.proxyValue.Name = "proxyValue";
 			this.proxyValue.Size = new System.Drawing.Size(609, 20);
 			this.proxyValue.TabIndex = 9;
-			this.proxyValue.Text = "http://localhost:8888";
 			// 
 			// testValues
 			// 
@@ -278,11 +288,11 @@
 			// 
 			// saveReq
 			// 
-			this.saveReq.Location = new System.Drawing.Point(820, 79);
+			this.saveReq.Location = new System.Drawing.Point(863, 79);
 			this.saveReq.Name = "saveReq";
-			this.saveReq.Size = new System.Drawing.Size(96, 23);
+			this.saveReq.Size = new System.Drawing.Size(53, 23);
 			this.saveReq.TabIndex = 14;
-			this.saveReq.Text = "Save Request";
+			this.saveReq.Text = "Save";
 			this.saveReq.UseVisualStyleBackColor = true;
 			this.saveReq.Click += new System.EventHandler(this.saveReq_Click);
 			// 
@@ -345,13 +355,6 @@
 			// 
 			this.invalidRegex.ContainerControl = this;
 			// 
-			// manuallyAddTestCaseToolStripMenuItem
-			// 
-			this.manuallyAddTestCaseToolStripMenuItem.Name = "manuallyAddTestCaseToolStripMenuItem";
-			this.manuallyAddTestCaseToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-			this.manuallyAddTestCaseToolStripMenuItem.Text = "Manually Add Test Case";
-			this.manuallyAddTestCaseToolStripMenuItem.Click += new System.EventHandler(this.manuallyAddTestCaseToolStripMenuItem_Click);
-			// 
 			// followRedirects
 			// 
 			this.followRedirects.AutoSize = true;
@@ -362,11 +365,45 @@
 			this.followRedirects.Text = "Follow Redirects";
 			this.followRedirects.UseVisualStyleBackColor = true;
 			// 
+			// Reset
+			// 
+			this.Reset.Location = new System.Drawing.Point(804, 79);
+			this.Reset.Name = "Reset";
+			this.Reset.Size = new System.Drawing.Size(53, 23);
+			this.Reset.TabIndex = 18;
+			this.Reset.Text = "Reset";
+			this.Reset.UseVisualStyleBackColor = true;
+			this.Reset.Click += new System.EventHandler(this.Reset_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewHelpToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// viewHelpToolStripMenuItem
+			// 
+			this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
+			this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.viewHelpToolStripMenuItem.Text = "View Help (Online)";
+			this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(928, 606);
+			this.Controls.Add(this.Reset);
 			this.Controls.Add(this.followRedirects);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.URLEncodeAttack);
@@ -385,7 +422,7 @@
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
-			this.Text = "Form1";
+			this.Text = "WhatTheFuzz - a basic fuzzer";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
@@ -433,6 +470,10 @@
 		private System.Windows.Forms.ErrorProvider invalidRegex;
 		private System.Windows.Forms.ToolStripMenuItem manuallyAddTestCaseToolStripMenuItem;
 		private System.Windows.Forms.CheckBox followRedirects;
+		private System.Windows.Forms.Button Reset;
+		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem viewHelpToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 	}
 }
 

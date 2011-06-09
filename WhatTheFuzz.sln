@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFuzzer", "WebFuzzer\WebFuzzer.csproj", "{B71166D0-AFE1-4304-97A3-0D351765025E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhatTheFuzz", "WebFuzzer\WhatTheFuzz.csproj", "{B71166D0-AFE1-4304-97A3-0D351765025E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

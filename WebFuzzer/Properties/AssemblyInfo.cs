@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WebFuzzer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("WhatTheFuzz")]
+[assembly: AssemblyDescription("A basic fuzzer by Joe Basirico")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("WebFuzzer")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCompany("Security Innovation")]
+[assembly: AssemblyProduct("WhatTheFuzz")]
+[assembly: AssemblyCopyright("BSD License")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
