@@ -276,6 +276,7 @@ namespace WhatTheFuzz
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.RestoreDirectory = true;
 			ofd.Filter = "WhatTheFuzz Files (*.wtf)|*.wtf|All files (*.*)|*.*";
+			
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				string file = File.ReadAllText(ofd.FileName);
@@ -289,7 +290,16 @@ namespace WhatTheFuzz
 				}
 				else
 				{
-					testValues.Items.Add(ParseTestCase(file));
+					ReqResPair lastLoaded = ParseTestCase(file);
+					testValues.Items.Add(lastLoaded);
+					if (MessageBox.Show("Do you want to load this test case into the window? If you select No the request will be loaded into the testcases list on the left.", "Replace existing informaiton?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+					{
+						requestInput.Text = lastLoaded.Request;
+						hostName.Text = lastLoaded.Host;
+						proxyValue.Text = lastLoaded.Proxy;
+						responseOutput.Text = lastLoaded.Response;
+						browser.DocumentText = lastLoaded.Response;
+					}
 				}
 			}
 		}
@@ -449,6 +459,23 @@ namespace WhatTheFuzz
 			newVal.Request = rrp.Request;
 			newVal.Response = rrp.Response;
 			return newVal;
+		}
+
+		private void clearHighligtedResultsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			List<ReqResPair> values = new List<ReqResPair>();
+			foreach (ReqResPair item in testValues.Items)
+			{
+				values.Add(item);
+			}
+
+			foreach (ReqResPair rrp in values)
+			{
+				ReqResPair newVal = CloneRRP(rrp);
+				if (rrp.Name.StartsWith("*"))
+					newVal.Name = newVal.Name.Substring(1);
+				testValues.Items.Add(newVal);
+			}
 		}
 
 	}

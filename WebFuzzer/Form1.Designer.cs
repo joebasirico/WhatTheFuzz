@@ -74,6 +74,7 @@
 			this.fuzzedRequest = new System.Windows.Forms.TextBox();
 			this.NextMatch = new System.Windows.Forms.Button();
 			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearHighligtedResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -211,7 +212,8 @@
 			// 
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveResponseAsHTMLToolStripMenuItem,
-            this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem});
+            this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem,
+            this.clearHighligtedResultsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
 			this.toolsToolStripMenuItem.Text = "Tools";
@@ -481,9 +483,16 @@
 			// highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem
 			// 
 			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Name = "highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem";
-			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
-			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Text = "Highlight all matching test values (may take a while)";
+			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Text = "Highlight all matching test values";
 			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Click += new System.EventHandler(this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem_Click);
+			// 
+			// clearHighligtedResultsToolStripMenuItem
+			// 
+			this.clearHighligtedResultsToolStripMenuItem.Name = "clearHighligtedResultsToolStripMenuItem";
+			this.clearHighligtedResultsToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
+			this.clearHighligtedResultsToolStripMenuItem.Text = "Clear highligted results";
+			this.clearHighligtedResultsToolStripMenuItem.Click += new System.EventHandler(this.clearHighligtedResultsToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -574,6 +583,7 @@
 		private System.Windows.Forms.RichTextBox responseOutput;
 		private System.Windows.Forms.Button NextMatch;
 		private System.Windows.Forms.ToolStripMenuItem highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem clearHighligtedResultsToolStripMenuItem;
 	}
 }
 
