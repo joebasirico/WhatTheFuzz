@@ -71,7 +71,7 @@ namespace WhatTheFuzz
 					string attackStr = val.AttackString;
 					if (URLEncodeAttack.Checked)
 						attackStr = HttpUtility.UrlEncode(attackStr);
-					newVal.Request = requestInput.Text.Replace("&&val&&", attackStr);
+					newVal.Request = Regex.Replace(requestInput.Text, "&&val&&", attackStr, RegexOptions.IgnoreCase);
 					newVal.Response = SendRequest(newVal.Host, newVal.Request, newVal.Proxy);
 
 					newVal.Name = "Completed: " + newVal.AttackString;
@@ -99,13 +99,10 @@ namespace WhatTheFuzz
 				}
 				if (!string.IsNullOrEmpty(requestBody))
 				{
-					request.Method = "POST";
-					byte[] byteArray = Encoding.UTF8.GetBytes(requestBody);
-					request.ContentType = "application/x-www-form-urlencoded";
-					request.ContentLength = byteArray.Length;
-					dataStream = request.GetRequestStream();
-					dataStream.Write(byteArray, 0, byteArray.Length);
-					dataStream.Close();
+					if (requestBody.StartsWith("POST"))
+						dataStream = SendCompletePost(requestBody, request);
+					else
+						dataStream = SendPartialPost(requestBody, request);
 				}
 				else
 					request.Method = "GET";
@@ -129,6 +126,63 @@ namespace WhatTheFuzz
 				responseFromServer = ex.ToString();
 			}
 			return responseFromServer;
+		}
+
+		private Stream SendCompletePost(string requestBody, HttpWebRequest request)
+		{
+			Stream dataStream;
+			request.Method = "POST";
+			foreach (string line in Regex.Split(requestBody, "\r\n"))
+			{
+				string[] kvp = line.Split(':');
+				if (2 == kvp.Length)
+				{
+					//some headers have to be set using their accessors :S
+					if (kvp[0].ToLower() == "accept")
+						request.Accept = kvp[1].TrimStart();
+					else if (kvp[0].ToLower() == "connection")
+						request.Connection = kvp[1].TrimStart();
+					else if (kvp[0].ToLower() == "content-type")
+						request.ContentType = kvp[1].TrimStart();
+					else if (kvp[0].ToLower() == "date")
+						request.Date = Convert.ToDateTime(kvp[1]);
+					else if (kvp[0].ToLower() == "expect")
+						request.Expect = kvp[1].TrimStart();
+					else if (kvp[0].ToLower() == "host")
+						request.Host = kvp[1].TrimStart();
+					else if (kvp[0].ToLower() == "if-modified-since")
+						request.IfModifiedSince = Convert.ToDateTime(kvp[1].TrimStart());
+					else if (kvp[0].ToLower() == "referer")
+						request.Referer = kvp[1].TrimStart();
+					else if (kvp[0].ToLower() == "user-agent")
+						request.UserAgent = kvp[1].TrimStart();
+					else if (!(kvp[0].ToLower() == "content-length" || kvp[0].ToLower() == "proxy-connection"))
+						request.Headers.Add(kvp[0], kvp[1].TrimStart());
+
+				}
+			}
+
+			Match cl = Regex.Match(requestBody, "Content-Length: \\d+");
+			int headerOffset = cl.Index + cl.Length;
+			byte[] byteArray = Encoding.UTF8.GetBytes(requestBody.Substring(headerOffset).TrimStart());
+			request.ContentLength = byteArray.Length;
+			dataStream = request.GetRequestStream();
+			dataStream.Write(byteArray, 0, byteArray.Length);
+			dataStream.Close();
+			return dataStream;
+		}
+
+		private static Stream SendPartialPost(string requestBody, HttpWebRequest request)
+		{
+			Stream dataStream;
+			request.Method = "POST";
+			byte[] byteArray = Encoding.UTF8.GetBytes(requestBody);
+			request.ContentType = "application/x-www-form-urlencoded";
+			request.ContentLength = byteArray.Length;
+			dataStream = request.GetRequestStream();
+			dataStream.Write(byteArray, 0, byteArray.Length);
+			dataStream.Close();
+			return dataStream;
 		}
 
 		private void testValues_SelectedIndexChanged(object sender, EventArgs e)
@@ -276,7 +330,7 @@ namespace WhatTheFuzz
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.RestoreDirectory = true;
 			ofd.Filter = "WhatTheFuzz Files (*.wtf)|*.wtf|All files (*.*)|*.*";
-			
+
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				string file = File.ReadAllText(ofd.FileName);
@@ -347,9 +401,10 @@ namespace WhatTheFuzz
 				invalidRegex.SetError(regexTestVal, "");
 				if (!string.IsNullOrEmpty(regexTestVal.Text))
 				{
-					if (Regex.IsMatch(responseOutput.Text, regexTestVal.Text))
+					Match m = Regex.Match(responseOutput.Text.Substring(startLocation),
+						regexTestVal.Text, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+					if (m.Captures.Count > 0)
 					{
-						Match m = Regex.Match(responseOutput.Text.Substring(startLocation), regexTestVal.Text);
 						responseOutput.SelectionStart = m.Index + startLocation;
 						responseOutput.SelectionLength = m.Length;
 						responseOutput.BackColor = Color.LightGreen;
@@ -478,5 +533,27 @@ namespace WhatTheFuzz
 			}
 		}
 
+		private void requestInput_TextChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				int caretLoc = requestInput.SelectionStart;
+				string currText = requestInput.Text;
+				requestInput.ResetText();
+				requestInput.Text = currText;
+				foreach (Match m in Regex.Matches(requestInput.Text, "&&val&&", RegexOptions.IgnoreCase))
+				{
+					requestInput.SelectionStart = m.Index;
+					requestInput.SelectionLength = m.Length;
+					requestInput.SelectionFont = new Font(responseOutput.SelectionFont, FontStyle.Bold | FontStyle.Underline);
+				}
+
+				requestInput.SelectionStart = caretLoc;
+				requestInput.SelectionLength = 0;
+			}
+			catch
+			{
+			}
+		}
 	}
 }

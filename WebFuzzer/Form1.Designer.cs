@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.requestInput = new System.Windows.Forms.TextBox();
 			this.Begin = new System.Windows.Forms.Button();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +45,8 @@
 			this.manuallyAddTestCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveResponseAsHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearHighligtedResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,8 +74,7 @@
 			this.FuzzedRequestTab = new System.Windows.Forms.TabPage();
 			this.fuzzedRequest = new System.Windows.Forms.TextBox();
 			this.NextMatch = new System.Windows.Forms.Button();
-			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.clearHighligtedResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.requestInput = new System.Windows.Forms.RichTextBox();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -84,18 +84,6 @@
 			this.OriginalRequestTab.SuspendLayout();
 			this.FuzzedRequestTab.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// requestInput
-			// 
-			this.requestInput.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.requestInput.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.requestInput.Location = new System.Drawing.Point(3, 3);
-			this.requestInput.Multiline = true;
-			this.requestInput.Name = "requestInput";
-			this.requestInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.requestInput.Size = new System.Drawing.Size(666, 141);
-			this.requestInput.TabIndex = 2;
-			this.requestInput.Text = "[Paste POST Data Here, if left blank a GET request will be made]";
 			// 
 			// Begin
 			// 
@@ -221,9 +209,23 @@
 			// saveResponseAsHTMLToolStripMenuItem
 			// 
 			this.saveResponseAsHTMLToolStripMenuItem.Name = "saveResponseAsHTMLToolStripMenuItem";
-			this.saveResponseAsHTMLToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+			this.saveResponseAsHTMLToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
 			this.saveResponseAsHTMLToolStripMenuItem.Text = "Save Response as HTML";
 			this.saveResponseAsHTMLToolStripMenuItem.Click += new System.EventHandler(this.saveResponseAsHTMLToolStripMenuItem_Click);
+			// 
+			// highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem
+			// 
+			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Name = "highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem";
+			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Text = "Highlight all matching test values";
+			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Click += new System.EventHandler(this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem_Click);
+			// 
+			// clearHighligtedResultsToolStripMenuItem
+			// 
+			this.clearHighligtedResultsToolStripMenuItem.Name = "clearHighligtedResultsToolStripMenuItem";
+			this.clearHighligtedResultsToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+			this.clearHighligtedResultsToolStripMenuItem.Text = "Clear highligted results";
+			this.clearHighligtedResultsToolStripMenuItem.Click += new System.EventHandler(this.clearHighligtedResultsToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -480,19 +482,16 @@
 			this.NextMatch.UseVisualStyleBackColor = true;
 			this.NextMatch.Click += new System.EventHandler(this.NextMatch_Click);
 			// 
-			// highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem
+			// requestInput
 			// 
-			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Name = "highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem";
-			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
-			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Text = "Highlight all matching test values";
-			this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem.Click += new System.EventHandler(this.highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem_Click);
-			// 
-			// clearHighligtedResultsToolStripMenuItem
-			// 
-			this.clearHighligtedResultsToolStripMenuItem.Name = "clearHighligtedResultsToolStripMenuItem";
-			this.clearHighligtedResultsToolStripMenuItem.Size = new System.Drawing.Size(350, 22);
-			this.clearHighligtedResultsToolStripMenuItem.Text = "Clear highligted results";
-			this.clearHighligtedResultsToolStripMenuItem.Click += new System.EventHandler(this.clearHighligtedResultsToolStripMenuItem_Click);
+			this.requestInput.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.requestInput.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.requestInput.Location = new System.Drawing.Point(3, 3);
+			this.requestInput.Name = "requestInput";
+			this.requestInput.Size = new System.Drawing.Size(666, 141);
+			this.requestInput.TabIndex = 0;
+			this.requestInput.Text = "[Paste POST Data Here, if left blank a GET request will be made]";
+			this.requestInput.TextChanged += new System.EventHandler(this.requestInput_TextChanged);
 			// 
 			// Form1
 			// 
@@ -528,7 +527,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.invalidRegex)).EndInit();
 			this.tabControl2.ResumeLayout(false);
 			this.OriginalRequestTab.ResumeLayout(false);
-			this.OriginalRequestTab.PerformLayout();
 			this.FuzzedRequestTab.ResumeLayout(false);
 			this.FuzzedRequestTab.PerformLayout();
 			this.ResumeLayout(false);
@@ -538,7 +536,6 @@
 
 		#endregion
 
-		private System.Windows.Forms.TextBox requestInput;
 		private System.Windows.Forms.Button Begin;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -584,6 +581,7 @@
 		private System.Windows.Forms.Button NextMatch;
 		private System.Windows.Forms.ToolStripMenuItem highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem clearHighligtedResultsToolStripMenuItem;
+		private System.Windows.Forms.RichTextBox requestInput;
 	}
 }
 
