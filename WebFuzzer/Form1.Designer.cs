@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.responseOutput = new System.Windows.Forms.TextBox();
 			this.requestInput = new System.Windows.Forms.TextBox();
 			this.Begin = new System.Windows.Forms.Button();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -45,6 +44,11 @@
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.loadSingleTestCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.manuallyAddTestCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.saveResponseAsHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hostName = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -58,41 +62,36 @@
 			this.URLEncodeAttack = new System.Windows.Forms.CheckBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.responseOutput = new System.Windows.Forms.RichTextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.browser = new System.Windows.Forms.WebBrowser();
 			this.invalidRegex = new System.Windows.Forms.ErrorProvider(this.components);
 			this.followRedirects = new System.Windows.Forms.CheckBox();
 			this.Reset = new System.Windows.Forms.Button();
-			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.viewHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tabControl2 = new System.Windows.Forms.TabControl();
+			this.OriginalRequestTab = new System.Windows.Forms.TabPage();
+			this.FuzzedRequestTab = new System.Windows.Forms.TabPage();
+			this.fuzzedRequest = new System.Windows.Forms.TextBox();
+			this.NextMatch = new System.Windows.Forms.Button();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.invalidRegex)).BeginInit();
+			this.tabControl2.SuspendLayout();
+			this.OriginalRequestTab.SuspendLayout();
+			this.FuzzedRequestTab.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// responseOutput
-			// 
-			this.responseOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.responseOutput.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.responseOutput.Location = new System.Drawing.Point(3, 3);
-			this.responseOutput.Multiline = true;
-			this.responseOutput.Name = "responseOutput";
-			this.responseOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.responseOutput.Size = new System.Drawing.Size(670, 223);
-			this.responseOutput.TabIndex = 1;
-			this.responseOutput.TextChanged += new System.EventHandler(this.responseOutput_TextChanged);
 			// 
 			// requestInput
 			// 
+			this.requestInput.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.requestInput.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.requestInput.Location = new System.Drawing.Point(229, 104);
+			this.requestInput.Location = new System.Drawing.Point(3, 3);
 			this.requestInput.Multiline = true;
 			this.requestInput.Name = "requestInput";
 			this.requestInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.requestInput.Size = new System.Drawing.Size(687, 177);
+			this.requestInput.Size = new System.Drawing.Size(666, 141);
 			this.requestInput.TabIndex = 2;
 			this.requestInput.Text = "[Paste POST Data Here, if left blank a GET request will be made]";
 			// 
@@ -111,6 +110,7 @@
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.testCasesToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
@@ -206,6 +206,44 @@
 			this.manuallyAddTestCaseToolStripMenuItem.Text = "Manually Add Test Case";
 			this.manuallyAddTestCaseToolStripMenuItem.Click += new System.EventHandler(this.manuallyAddTestCaseToolStripMenuItem_Click);
 			// 
+			// toolsToolStripMenuItem
+			// 
+			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveResponseAsHTMLToolStripMenuItem});
+			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+			this.toolsToolStripMenuItem.Text = "Tools";
+			// 
+			// saveResponseAsHTMLToolStripMenuItem
+			// 
+			this.saveResponseAsHTMLToolStripMenuItem.Name = "saveResponseAsHTMLToolStripMenuItem";
+			this.saveResponseAsHTMLToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+			this.saveResponseAsHTMLToolStripMenuItem.Text = "Save Response as HTML";
+			this.saveResponseAsHTMLToolStripMenuItem.Click += new System.EventHandler(this.saveResponseAsHTMLToolStripMenuItem_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewHelpToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// viewHelpToolStripMenuItem
+			// 
+			this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
+			this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.viewHelpToolStripMenuItem.Text = "View Help (Online)";
+			this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			// 
 			// hostName
 			// 
 			this.hostName.Location = new System.Drawing.Point(307, 27);
@@ -236,7 +274,7 @@
 			// 
 			this.regexTestVal.Location = new System.Drawing.Point(309, 571);
 			this.regexTestVal.Name = "regexTestVal";
-			this.regexTestVal.Size = new System.Drawing.Size(501, 20);
+			this.regexTestVal.Size = new System.Drawing.Size(489, 20);
 			this.regexTestVal.TabIndex = 7;
 			this.regexTestVal.TextChanged += new System.EventHandler(this.regexTestVal_TextChanged);
 			// 
@@ -329,6 +367,16 @@
 			this.tabPage1.Text = "HTML";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
+			// responseOutput
+			// 
+			this.responseOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.responseOutput.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.responseOutput.Location = new System.Drawing.Point(3, 3);
+			this.responseOutput.Name = "responseOutput";
+			this.responseOutput.Size = new System.Drawing.Size(670, 223);
+			this.responseOutput.TabIndex = 2;
+			this.responseOutput.Text = "";
+			// 
 			// tabPage2
 			// 
 			this.tabPage2.Controls.Add(this.browser);
@@ -375,34 +423,66 @@
 			this.Reset.UseVisualStyleBackColor = true;
 			this.Reset.Click += new System.EventHandler(this.Reset_Click);
 			// 
-			// helpToolStripMenuItem
+			// tabControl2
 			// 
-			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewHelpToolStripMenuItem,
-            this.aboutToolStripMenuItem});
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.helpToolStripMenuItem.Text = "Help";
+			this.tabControl2.Controls.Add(this.OriginalRequestTab);
+			this.tabControl2.Controls.Add(this.FuzzedRequestTab);
+			this.tabControl2.Location = new System.Drawing.Point(232, 108);
+			this.tabControl2.Name = "tabControl2";
+			this.tabControl2.SelectedIndex = 0;
+			this.tabControl2.Size = new System.Drawing.Size(680, 173);
+			this.tabControl2.TabIndex = 19;
 			// 
-			// viewHelpToolStripMenuItem
+			// OriginalRequestTab
 			// 
-			this.viewHelpToolStripMenuItem.Name = "viewHelpToolStripMenuItem";
-			this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-			this.viewHelpToolStripMenuItem.Text = "View Help (Online)";
-			this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
+			this.OriginalRequestTab.Controls.Add(this.requestInput);
+			this.OriginalRequestTab.Location = new System.Drawing.Point(4, 22);
+			this.OriginalRequestTab.Name = "OriginalRequestTab";
+			this.OriginalRequestTab.Padding = new System.Windows.Forms.Padding(3);
+			this.OriginalRequestTab.Size = new System.Drawing.Size(672, 147);
+			this.OriginalRequestTab.TabIndex = 0;
+			this.OriginalRequestTab.Text = "Original Request";
+			this.OriginalRequestTab.UseVisualStyleBackColor = true;
 			// 
-			// aboutToolStripMenuItem
+			// FuzzedRequestTab
 			// 
-			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-			this.aboutToolStripMenuItem.Text = "About";
-			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			this.FuzzedRequestTab.Controls.Add(this.fuzzedRequest);
+			this.FuzzedRequestTab.Location = new System.Drawing.Point(4, 22);
+			this.FuzzedRequestTab.Name = "FuzzedRequestTab";
+			this.FuzzedRequestTab.Padding = new System.Windows.Forms.Padding(3);
+			this.FuzzedRequestTab.Size = new System.Drawing.Size(672, 147);
+			this.FuzzedRequestTab.TabIndex = 1;
+			this.FuzzedRequestTab.Text = "Fuzzed Request";
+			this.FuzzedRequestTab.UseVisualStyleBackColor = true;
+			// 
+			// fuzzedRequest
+			// 
+			this.fuzzedRequest.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.fuzzedRequest.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.fuzzedRequest.Location = new System.Drawing.Point(3, 3);
+			this.fuzzedRequest.Multiline = true;
+			this.fuzzedRequest.Name = "fuzzedRequest";
+			this.fuzzedRequest.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.fuzzedRequest.Size = new System.Drawing.Size(666, 141);
+			this.fuzzedRequest.TabIndex = 3;
+			// 
+			// NextMatch
+			// 
+			this.NextMatch.Location = new System.Drawing.Point(804, 571);
+			this.NextMatch.Name = "NextMatch";
+			this.NextMatch.Size = new System.Drawing.Size(30, 23);
+			this.NextMatch.TabIndex = 20;
+			this.NextMatch.Text = ">";
+			this.NextMatch.UseVisualStyleBackColor = true;
+			this.NextMatch.Click += new System.EventHandler(this.NextMatch_Click);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(928, 606);
+			this.Controls.Add(this.NextMatch);
+			this.Controls.Add(this.tabControl2);
 			this.Controls.Add(this.Reset);
 			this.Controls.Add(this.followRedirects);
 			this.Controls.Add(this.tabControl1);
@@ -418,7 +498,6 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.hostName);
 			this.Controls.Add(this.Begin);
-			this.Controls.Add(this.requestInput);
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "Form1";
@@ -427,9 +506,13 @@
 			this.menuStrip1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.invalidRegex)).EndInit();
+			this.tabControl2.ResumeLayout(false);
+			this.OriginalRequestTab.ResumeLayout(false);
+			this.OriginalRequestTab.PerformLayout();
+			this.FuzzedRequestTab.ResumeLayout(false);
+			this.FuzzedRequestTab.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -437,7 +520,6 @@
 
 		#endregion
 
-		private System.Windows.Forms.TextBox responseOutput;
 		private System.Windows.Forms.TextBox requestInput;
 		private System.Windows.Forms.Button Begin;
 		private System.Windows.Forms.MenuStrip menuStrip1;
@@ -474,6 +556,14 @@
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem viewHelpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+		private System.Windows.Forms.TabControl tabControl2;
+		private System.Windows.Forms.TabPage OriginalRequestTab;
+		private System.Windows.Forms.TabPage FuzzedRequestTab;
+		private System.Windows.Forms.TextBox fuzzedRequest;
+		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem saveResponseAsHTMLToolStripMenuItem;
+		private System.Windows.Forms.RichTextBox responseOutput;
+		private System.Windows.Forms.Button NextMatch;
 	}
 }
 

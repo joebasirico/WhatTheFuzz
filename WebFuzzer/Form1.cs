@@ -46,13 +46,6 @@ namespace WhatTheFuzz
 
 		private void Begin_Click(object sender, EventArgs e)
 		{
-			//if the user has changed the request and it has a new val to replace, use that
-			if (requestInput.Text.Contains("&&val&&"))
-				originalRequest = requestInput.Text;
-			//if this is the first time, and there is no previous request, use whatever they have in there.
-			else if (string.IsNullOrEmpty(originalRequest))
-				originalRequest = requestInput.Text;
-			
 			//move this up here so we can use it later.
 			ReqResPair newVal = new ReqResPair("", "");
 			List<ReqResPair> values = new List<ReqResPair>();
@@ -72,12 +65,15 @@ namespace WhatTheFuzz
 				string attackStr = val.AttackString;
 				if (URLEncodeAttack.Checked)
 					attackStr = HttpUtility.UrlEncode(attackStr);
-				newVal.Request = originalRequest.Replace("&&val&&", attackStr);
+				newVal.Request = requestInput.Text.Replace("&&val&&", attackStr);
 				newVal.Response = SendRequest(newVal.Host, newVal.Request, newVal.Proxy);
 
 				newVal.Name = "Completed: " + newVal.AttackString;
 				testValues.Items.Add(newVal);
 			}
+
+			tabControl2.SelectTab(1);
+			fuzzedRequest.Text = newVal.Request;
 			browser.DocumentText = newVal.Response;
 			responseOutput.Text = newVal.Response;
 		}
@@ -134,7 +130,7 @@ namespace WhatTheFuzz
 			if (null != selectedVal)
 			{
 				//replace host, proxy, req and response with the selected value
-				requestInput.Text = selectedVal.Request;
+				fuzzedRequest.Text = selectedVal.Request;
 				responseOutput.Text = selectedVal.Response;
 				browser.DocumentText = selectedVal.Response;
 				hostName.Text = selectedVal.Host;
@@ -188,7 +184,7 @@ namespace WhatTheFuzz
 				ReqResPair rrp = (ReqResPair)testValues.SelectedValue;
 				SaveFileDialog sfd = new SaveFileDialog();
 				sfd.RestoreDirectory = true;
-				sfd.Filter = "WhatTheFuzz Files (*.wff)|*.wff|All files (*.*)|*.*";
+				sfd.Filter = "WhatTheFuzz Files (*.wtf)|*.wtf|All files (*.*)|*.*";
 				if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
 					string testCase = GenerateTestCaseString(rrp);
@@ -199,7 +195,7 @@ namespace WhatTheFuzz
 			{
 				SaveFileDialog sfd = new SaveFileDialog();
 				sfd.RestoreDirectory = true;
-				sfd.Filter = "WhatTheFuzz Files (*.wff)|*.wff|All files (*.*)|*.*";
+				sfd.Filter = "WhatTheFuzz Files (*.wtf)|*.wtf|All files (*.*)|*.*";
 				if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
 					string testCase = Base64Encode("NoName") + "|" +
@@ -243,7 +239,7 @@ namespace WhatTheFuzz
 		{
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.RestoreDirectory = true;
-			sfd.Filter = "WhatTheFuzz Files (*.wff)|*.wff|All files (*.*)|*.*";
+			sfd.Filter = "WhatTheFuzz Files (*.wtf)|*.wtf|All files (*.*)|*.*";
 			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				StringBuilder sb = new StringBuilder();
@@ -272,7 +268,7 @@ namespace WhatTheFuzz
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.RestoreDirectory = true;
-			ofd.Filter = "WhatTheFuzz Files (*.wff)|*.wff|All files (*.*)|*.*";
+			ofd.Filter = "WhatTheFuzz Files (*.wtf)|*.wtf|All files (*.*)|*.*";
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				string file = File.ReadAllText(ofd.FileName);
@@ -311,27 +307,38 @@ namespace WhatTheFuzz
 			if (MessageBox.Show("This will remove all the values from the left column of test cases. \r\n\r\nAre you sure you want to do that?",
 				"Warning, you're about to delete your test cases", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
 			{
+				tabControl2.SelectTab(0);
 				testValues.Items.Clear();
-				requestInput.Text = originalRequest;
+				fuzzedRequest.Text = "";
 				responseOutput.Text = "";
+				browser.DocumentText = "";
 			}
 		}
 
 		private void responseOutput_TextChanged(object sender, EventArgs e)
 		{
-			CheckResponse();
+			CheckResponse(0);
 		}
 
-		private void CheckResponse()
+		private void CheckResponse(int startLocation)
 		{
 			try
 			{
+				string text = responseOutput.Text;
+				responseOutput.ResetText();
+				responseOutput.Text = text;
 				invalidRegex.SetError(regexTestVal, "");
-				//at this point newVal has been filled with data
 				if (!string.IsNullOrEmpty(regexTestVal.Text))
 				{
 					if (Regex.IsMatch(responseOutput.Text, regexTestVal.Text))
+					{
+						Match m = Regex.Match(responseOutput.Text.Substring(startLocation), regexTestVal.Text);
+						responseOutput.SelectionStart = m.Index + startLocation;
+						responseOutput.SelectionLength = m.Length;
 						responseOutput.BackColor = Color.LightGreen;
+						responseOutput.ScrollToCaret();
+						responseOutput.SelectionFont = new Font(responseOutput.SelectionFont, FontStyle.Bold);
+					}
 					else
 						responseOutput.BackColor = Color.White;
 				}
@@ -349,15 +356,15 @@ namespace WhatTheFuzz
 						responseOutput.BackColor = Color.White;
 				}
 			}
-            catch (Exception ex)
-            {
-                invalidRegex.SetError(regexTestVal, ex.Message);
-            }
+			catch (Exception ex)
+			{
+				invalidRegex.SetError(regexTestVal, ex.Message);
+			}
 		}
 
 		private void regexTestVal_TextChanged(object sender, EventArgs e)
 		{
-			CheckResponse();
+			CheckResponse(0);
 		}
 
 		private void manuallyAddTestCaseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -373,7 +380,7 @@ namespace WhatTheFuzz
 		private void Reset_Click(object sender, EventArgs e)
 		{
 			requestInput.Text = originalRequest;
-			responseOutput.Text = ""; 
+			responseOutput.Text = "";
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -385,6 +392,23 @@ namespace WhatTheFuzz
 		private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			System.Diagnostics.Process.Start("https://github.com/SecurityInnovation/WhatTheFuzz");
+		}
+
+		private void saveResponseAsHTMLToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog sfd = new SaveFileDialog();
+			sfd.Filter = "HTML Files (*.html)|*.html|All files (*.*)|*.*";
+			if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				File.WriteAllText(sfd.FileName, responseOutput.Text);
+			}
+		}
+
+		private void NextMatch_Click(object sender, EventArgs e)
+		{
+			CheckResponse(responseOutput.SelectionStart + 1);
+			if (responseOutput.SelectionLength == 0)
+				CheckResponse(0);
 		}
 	}
 }
