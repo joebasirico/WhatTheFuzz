@@ -46,36 +46,43 @@ namespace WhatTheFuzz
 
 		private void Begin_Click(object sender, EventArgs e)
 		{
-			//move this up here so we can use it later.
-			ReqResPair newVal = new ReqResPair("", "");
-			List<ReqResPair> values = new List<ReqResPair>();
-			foreach (ReqResPair item in testValues.Items)
+			if (requestInput.Text.Contains("&&val&&") || MessageBox.Show("Your request doesn't have a &&val&& replaced value in it. If you click yes you will send "
+					+ testValues.Items.Count + " of the same request to the server. Do you want to do that?",
+					"No Replacement Value Found", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) ==
+					System.Windows.Forms.DialogResult.Yes)
 			{
-				values.Add(item);
+
+				//move this up here so we can use it later.
+				ReqResPair newVal = new ReqResPair("", "");
+				List<ReqResPair> values = new List<ReqResPair>();
+				foreach (ReqResPair item in testValues.Items)
+				{
+					values.Add(item);
+				}
+
+				foreach (ReqResPair val in values)
+				{
+					newVal = new ReqResPair(val.Name, val.AttackString);
+					//remove it so we can re-add it later
+					testValues.Items.Remove(val);
+
+					newVal.Host = hostName.Text;
+					newVal.Proxy = proxyValue.Text;
+					string attackStr = val.AttackString;
+					if (URLEncodeAttack.Checked)
+						attackStr = HttpUtility.UrlEncode(attackStr);
+					newVal.Request = requestInput.Text.Replace("&&val&&", attackStr);
+					newVal.Response = SendRequest(newVal.Host, newVal.Request, newVal.Proxy);
+
+					newVal.Name = "Completed: " + newVal.AttackString;
+					testValues.Items.Add(newVal);
+				}
+
+				tabControl2.SelectTab(1);
+				fuzzedRequest.Text = newVal.Request;
+				browser.DocumentText = newVal.Response;
+				responseOutput.Text = newVal.Response;
 			}
-
-			foreach (ReqResPair val in values)
-			{
-				newVal = new ReqResPair(val.Name, val.AttackString);
-				//remove it so we can re-add it later
-				testValues.Items.Remove(val);
-
-				newVal.Host = hostName.Text;
-				newVal.Proxy = proxyValue.Text;
-				string attackStr = val.AttackString;
-				if (URLEncodeAttack.Checked)
-					attackStr = HttpUtility.UrlEncode(attackStr);
-				newVal.Request = requestInput.Text.Replace("&&val&&", attackStr);
-				newVal.Response = SendRequest(newVal.Host, newVal.Request, newVal.Proxy);
-
-				newVal.Name = "Completed: " + newVal.AttackString;
-				testValues.Items.Add(newVal);
-			}
-
-			tabControl2.SelectTab(1);
-			fuzzedRequest.Text = newVal.Request;
-			browser.DocumentText = newVal.Response;
-			responseOutput.Text = newVal.Response;
 		}
 
 		private string SendRequest(string host, string requestBody, string proxy)
@@ -337,7 +344,7 @@ namespace WhatTheFuzz
 						responseOutput.SelectionLength = m.Length;
 						responseOutput.BackColor = Color.LightGreen;
 						responseOutput.ScrollToCaret();
-						responseOutput.SelectionFont = new Font(responseOutput.SelectionFont, FontStyle.Bold);
+						responseOutput.SelectionFont = new Font(responseOutput.SelectionFont, FontStyle.Bold | FontStyle.Underline);
 					}
 					else
 						responseOutput.BackColor = Color.White;
@@ -410,5 +417,39 @@ namespace WhatTheFuzz
 			if (responseOutput.SelectionLength == 0)
 				CheckResponse(0);
 		}
+
+		private void highlightAllMatchingTestValuesmayTakeAWhileToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!string.IsNullOrEmpty(regexTestVal.Text))
+			{
+				List<ReqResPair> values = new List<ReqResPair>();
+				foreach (ReqResPair item in testValues.Items)
+				{
+					values.Add(item);
+				}
+
+				foreach (ReqResPair rrp in values)
+				{
+					ReqResPair newVal = CloneRRP(rrp);
+					if (Regex.IsMatch(rrp.Response, regexTestVal.Text))
+						newVal.Name = "*" + newVal.Name;
+					testValues.Items.Add(newVal);
+				}
+			}
+		}
+
+		private ReqResPair CloneRRP(ReqResPair rrp)
+		{
+			ReqResPair newVal = new ReqResPair(rrp.Name, rrp.AttackString);
+			//remove it so we can re-add it later
+			testValues.Items.Remove(rrp);
+			newVal.Host = rrp.Host;
+			newVal.Proxy = rrp.Proxy;
+			newVal.AttackString = rrp.AttackString;
+			newVal.Request = rrp.Request;
+			newVal.Response = rrp.Response;
+			return newVal;
+		}
+
 	}
 }
