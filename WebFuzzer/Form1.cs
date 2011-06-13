@@ -46,7 +46,7 @@ namespace WhatTheFuzz
 
 		private void Begin_Click(object sender, EventArgs e)
 		{
-			if (requestInput.Text.Contains("&&val&&") || MessageBox.Show("Your request doesn't have a &&val&& replaced value in it. If you click yes you will send "
+			if (Regex.IsMatch(requestInput.Text, "&&val&&", RegexOptions.IgnoreCase) || MessageBox.Show("Your request doesn't have a &&val&& replaced value in it. If you click yes you will send "
 					+ testValues.Items.Count + " of the same request to the server. Do you want to do that?",
 					"No Replacement Value Found", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) ==
 					System.Windows.Forms.DialogResult.Yes)
